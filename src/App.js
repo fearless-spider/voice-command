@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    const commands = [
+        {
+            command: 'I would like to order *',
+            callback: (food) => setMessage(`Your order is for: ${food}`)
+        },
+    ]
 
-export default App;
+    const { transcript } = useSpeechRecognition({ commands })
+
+
+    return (
+        <div>
+            <h3>Hello World!</h3>
+            <p>{transcript ? transcript : 'Start listening for transcript'}</p>
+
+            <button onClick={SpeechRecognition.startListening}>Start listening</button>
+            &nbsp;
+            <button onClick={SpeechRecognition.stopListening}>Stop listening</button>
+        </div>
+    );
+}
